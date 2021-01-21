@@ -1,6 +1,10 @@
 var express = require('express')
 
 var app = express()
+
+var publicDir = require('path').join(__dirname,'/public');
+app.use(express.static(publicDir));
+
 app.get('/',(req,res)=>{
     res.write('<html><body>');
     res.write('<h1>Hello </h1>')
