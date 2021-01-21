@@ -1,5 +1,6 @@
 var http= require('http');
 var fs = require('fs')
+var qs = require('querystring')
 
 
 var server = http.createServer(function (req, res) { 
@@ -15,9 +16,10 @@ var server = http.createServer(function (req, res) {
         res.write('</ul>');
         res.write('<a href="/new">New item</a>')
         res.write('</body></html>')
+        res.end()
     }else if(req.url=='/new'){
         res.write('<html><body>');
-        res.write('<form action="/saveItem" method="post">')
+        res.write('<form enctype="application/x-www-form-urlencoded" action="/saveItem" method="post">')
         res.write('Item <input type="input" name="txtName"/>')
         res.write('<input type="submit" value="Save"/>')
         res.write('</form>')
@@ -28,15 +30,18 @@ var server = http.createServer(function (req, res) {
         let body = '';
         req.on("data",function(chunk){
             body += chunk;
-        })
+        })    
         req.on('end',function(){
-             res.write('you are saving: ' +body);
-             res.end();
+             let item = qs.parse(body).txtName;
+             res.write('you are saving: ' +item);
+             //save item to file
+             fs.appendFileSync('data.txt','\n'+ item ,'utf8')
+             //res.setHeader('Location','/');
+             return res.end()
         })
     }
 }
 )
-
 var PORT = process.env.PORT || 5000
 server.listen(PORT); //3 - listen for any incoming requests
 
