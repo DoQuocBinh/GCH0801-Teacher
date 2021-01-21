@@ -19,7 +19,7 @@ var server = http.createServer(function (req, res) {
         res.end()
     }else if(req.url=='/new'){
         res.write('<html><body>');
-        res.write('<form enctype="application/x-www-form-urlencoded" action="/saveItem" method="post">')
+        res.write('<form  action="/saveItem" method="post">')
         res.write('Item <input type="input" name="txtName"/>')
         res.write('<input type="submit" value="Save"/>')
         res.write('</form>')
