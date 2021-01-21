@@ -1,18 +1,39 @@
 var http= require('http');
 var fs = require('fs')
 
+
 var server = http.createServer(function (req, res) { 
-    //res.write('hello world')
-    let content = fs.readFileSync('data.txt','utf8');
-    let words = content.split('\n');
-    res.write('<html><body>');
-    res.write('<ul>');
-    for(i=0;i<words.length;i++){
-        res.write('<li>' + words[i] + '</li>');
+    if (req.url == '/')
+    {
+        let content = fs.readFileSync('data.txt','utf8');
+        let words = content.split('\n');
+        res.write('<html><body>');
+        res.write('<ul>');
+        for(i=0;i<words.length;i++){
+            res.write('<li>' + words[i] + '</li>');
+        }
+        res.write('</ul>');
+        res.write('<a href="/new">New item</a>')
+        res.write('</body></html>')
+    }else if(req.url=='/new'){
+        res.write('<html><body>');
+        res.write('<form action="/saveItem" method="post">')
+        res.write('Item <input type="input" name="txtName"/>')
+        res.write('<input type="submit" value="Save"/>')
+        res.write('</form>')
+        res.write('<br><a href="/">Home</a>')
+        res.write('</body></html>')
+        res.end();
+    }else if(req.url== '/saveItem'){
+        let body = '';
+        req.on("data",function(chunk){
+            body += chunk;
+        })
+        req.on('end',function(){
+             res.write('you are saving: ' +body);
+             res.end();
+        })
     }
-    res.write('</ul>');
-    res.write('</body></html>')
-    res.end();
 }
 )
 
