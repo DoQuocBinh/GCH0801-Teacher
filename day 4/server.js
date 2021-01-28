@@ -11,8 +11,14 @@ var fileName = 'notes.txt'
 app.post('/doAdd',(req,res)=>{
     //get content from textbox txtNote
     let note = req.body.txtNote;
+    if(note == null || note.length==0){
+        res.sendFile(publicDir + '/newNote.html')
+        return;
+    }
+    //get the current timestamp
+    let ts = new Date().getTime();
     //append the content to end of the file notes.txt
-    fs.appendFileSync(fileName,note +'\n','utf8')
+    fs.appendFileSync(fileName,ts +'*'+note +'\n','utf8')
     //go to the url '/' which means index.html
     res.redirect('/');
 })
