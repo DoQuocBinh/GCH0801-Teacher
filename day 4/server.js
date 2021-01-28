@@ -4,6 +4,9 @@ var app = express()
 var publicDir = require('path').join(__dirname,'/public');
 app.use(express.static(publicDir));
 
+var hbs = require('hbs')
+app.set('view engine','hbs')
+
 var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
 var fs = require('fs')
@@ -28,7 +31,8 @@ app.get('/',(req,res)=>{
 })
 
 app.get('/new',(req,res)=>{
-    res.sendFile(publicDir + '/newNote.html');
+    //res.sendFile(publicDir + '/newNote.html');
+    res.render('newNote');
 })
 
 var PORT = process.env.PORT || 5000
