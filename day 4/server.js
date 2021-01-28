@@ -11,12 +11,34 @@ var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
 var fs = require('fs')
 var fileName = 'notes.txt'
+var  jsonIdAndNote =[];
+
+app.get('/remove',(req,res)=>{
+    let id = req.query.id;
+    let posRemove=-1;
+    for(i=0;i<jsonIdAndNote.length;i++){
+        if(jsonIdAndNote[i].id== id){
+            posRemove = i;
+            break;
+        }
+    }
+    jsonIdAndNote.splice(posRemove,1);
+    //update the file content
+    let newContent ='';
+    for(i=0;i<jsonIdAndNote.length;i++){
+        newContent += jsonIdAndNote[i].id + '*' + jsonIdAndNote[i].note + '\n';
+    }
+    fs.writeFileSync(fileName,newContent,'utf8');
+    res.redirect('/list');
+})
 
 app.get('/list',(req,res)=>{
+    //reset the array to empty
+    jsonIdAndNote = []
     let wholeContent = fs.readFileSync(fileName,'utf8');
     let idAndNote = wholeContent.split('\n');
     idAndNote.pop();//remove the last element
-    let jsonIdAndNote =[];
+     
     for(i=0;i<idAndNote.length;i++){
         let node = {
             id : idAndNote[i].split('*')[0],
@@ -24,7 +46,9 @@ app.get('/list',(req,res)=>{
         }
         jsonIdAndNote.push(node);
     }
+    console.log(jsonIdAndNote)
     res.render('viewAll',{data: jsonIdAndNote})
+    
 })
 app.post('/doAdd',(req,res)=>{
     //get content from textbox txtNote
