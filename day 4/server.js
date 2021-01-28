@@ -11,6 +11,21 @@ var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }));
 var fs = require('fs')
 var fileName = 'notes.txt'
+
+app.get('/list',(req,res)=>{
+    let wholeContent = fs.readFileSync(fileName,'utf8');
+    let idAndNote = wholeContent.split('\n');
+    idAndNote.pop();//remove the last element
+    let jsonIdAndNote =[];
+    for(i=0;i<idAndNote.length;i++){
+        let node = {
+            id : idAndNote[i].split('*')[0],
+            note: idAndNote[i].split('*')[1]
+        }
+        jsonIdAndNote.push(node);
+    }
+    res.render('viewAll',{data: jsonIdAndNote})
+})
 app.post('/doAdd',(req,res)=>{
     //get content from textbox txtNote
     let note = req.body.txtNote;
