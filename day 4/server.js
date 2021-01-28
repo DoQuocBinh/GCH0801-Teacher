@@ -15,7 +15,8 @@ app.post('/doAdd',(req,res)=>{
     //get content from textbox txtNote
     let note = req.body.txtNote;
     if(note == null || note.length==0){
-        res.sendFile(publicDir + '/newNote.html')
+        //res.sendFile(publicDir + '/newNote.html')
+        res.render('newNote',{errorMsg: 'Not allowed to be empty!'})
         return;
     }
     //get the current timestamp

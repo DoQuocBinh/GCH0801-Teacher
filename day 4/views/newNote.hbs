@@ -8,7 +8,9 @@
 <body>
     <h1>Create a new Note</h1>
     <form action="/doAdd" method="post">
-        Note <input type="text" name="txtNote">
+        Note <input type="text" name="txtNote"> 
+        <span style="color: red;">{{errorMsg}}</span>
+        <br>
         <input type="submit" value="Create Note">
     </form>
 </body>
