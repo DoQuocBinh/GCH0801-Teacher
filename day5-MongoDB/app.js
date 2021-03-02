@@ -12,11 +12,28 @@ app.use(express.static(publicDir));
 var hbs = require('hbs')
 app.set('view engine','hbs')
 
-var bodyParser = require("body-parser");
 
+var bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({ extended: false }))
+
+//npm install mongodb
 app.get('/',async (req,res)=>{
     let client= await MongoClient.connect(url);
     let dbo = client.db("MyDatabase");
+    let results = await dbo.collection("products").find({}).toArray();
+    res.render('home',{model:results})
+})
+app.get('/new',(req,res)=>{
+    res.render('newProduct')
+})
+app.post('/insert',async (req,res)=>{
+    let client= await MongoClient.connect(url);
+    let dbo = client.db("MyDatabase");
+    let nameInput = req.body.productName;
+    let priceInput = req.body.price;
+    let newProduct = {productName : nameInput, price:priceInput};
+    await dbo.collection("products").insertOne(newProduct);
+   
     let results = await dbo.collection("products").find({}).toArray();
     res.render('home',{model:results})
 })
