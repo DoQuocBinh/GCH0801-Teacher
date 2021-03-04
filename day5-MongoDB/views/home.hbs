@@ -13,11 +13,13 @@
         <tr>
             <td>Name</td>
             <td>Price</td>
+            <td>Delete</td>
         </tr>
         {{#each model}}
         <tr>
             <td>{{productName}}</td>
             <td>{{price}}</td>
+            <td><a href="/delete?pid={{_id}}">{{_id}}</a></td>
         </tr>
         {{/each}}
     </table>

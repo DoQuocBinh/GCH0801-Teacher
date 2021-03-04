@@ -16,6 +16,18 @@ app.set('view engine','hbs')
 var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }))
 
+app.get('/delete',async (req,res)=>{
+    let id = req.query.pid;
+    var ObjectID = require('mongodb').ObjectID;
+    let condition = {"_id":ObjectID(id)};    
+
+    let client= await M9ongoClient.connect(url);
+    let dbo = client.db("MyDatabase");
+    
+    await dbo.collection("products").deleteOne(condition);
+    res.redirect('/');
+})
+
 //npm install mongodb
 app.get('/',async (req,res)=>{
     let client= await MongoClient.connect(url);
