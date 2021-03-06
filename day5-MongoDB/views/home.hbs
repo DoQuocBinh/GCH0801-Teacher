@@ -17,7 +17,7 @@
         </tr>
         {{#each model}}
         <tr>
-            <td>{{productName}}</td>
+            <td><a href="edit?pid={{_id}}">{{productName}}</a></td>
             <td>{{price}}</td>
             <td><a href="/delete?pid={{_id}}">{{_id}}</a></td>
         </tr>

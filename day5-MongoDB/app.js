@@ -16,12 +16,39 @@ app.set('view engine','hbs')
 var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }))
 
+app.get('/edit', async(req,res)=>{
+    let id = req.query.pid;
+    var ObjectID = require('mongodb').ObjectID;
+    let condition = {"_id":ObjectID(id)}; 
+    
+    let client= await MongoClient.connect(url);
+    let dbo = client.db("MyDatabase");
+    let prod = await dbo.collection("products").findOne(condition);
+    res.render('edit',{model:prod});
+
+})
+app.post('/update',async (req,res)=>{
+    let client= await MongoClient.connect(url);
+    let dbo = client.db("MyDatabase");
+    
+    let nameInput = req.body.productName;
+    let priceInput = req.body.price;
+    let idInput = req.body.pid;
+
+    var ObjectID = require('mongodb').ObjectID;
+    let condition = {"_id":ObjectID(idInput)};  
+
+    let updateProduct ={$set : {productName : nameInput, price:priceInput}} ;
+    await dbo.collection("products").updateOne(condition,updateProduct);
+    res.redirect('/');
+})
+
 app.get('/delete',async (req,res)=>{
     let id = req.query.pid;
     var ObjectID = require('mongodb').ObjectID;
     let condition = {"_id":ObjectID(id)};    
 
-    let client= await M9ongoClient.connect(url);
+    let client= await MongoClient.connect(url);
     let dbo = client.db("MyDatabase");
     
     await dbo.collection("products").deleteOne(condition);

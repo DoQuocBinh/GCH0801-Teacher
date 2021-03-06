@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit product</title>
+</head>
+<body>
+    <form action="/update" method="POST">
+        <input type="hidden" name="pid" value="{{model._id}}">
+        Product Name<input type="text" name="productName" value="{{model.productName}}">
+        <br>
+        Price <input type="text" name="price" value="{{model.price}}"> 
+        <br>
+        <input type="submit" value="Update">
+    </form>
+</body>
+</html>
