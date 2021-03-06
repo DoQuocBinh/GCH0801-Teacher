@@ -65,6 +65,15 @@ app.get('/',async (req,res)=>{
 app.get('/new',(req,res)=>{
     res.render('newProduct')
 })
+app.post('/search',async (req,res)=>{
+    let searchText = req.body.txtSearch;
+    let client= await MongoClient.connect(url);
+    let dbo = client.db("MyDatabase");
+    let results = await dbo.collection("products").
+        find({productName: new RegExp(searchText,'i')}).toArray();
+        
+    res.render('home',{model:results})
+})
 app.post('/insert',async (req,res)=>{
     let client= await MongoClient.connect(url);
     let dbo = client.db("MyDatabase");
