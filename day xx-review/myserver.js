@@ -37,7 +37,7 @@ app.get('/', async (req,res)=>{
     //check session userName if exited
     myses = req.session;
     if(myses.userName !=null){   
-        let client= await MongoClient.connect(url);
+        let client= await MongoClient.connect(url, {useUnifiedTopology: true});
         let dbo = client.db("MyDatabase");
         let results = await dbo.collection("products").find({}).toArray();
         res.render('index',{model:results,userName:myses.userName})
