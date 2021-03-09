@@ -11,7 +11,9 @@ app.set('view engine','hbs')
 
 var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }))
-var url =  "mongodb+srv://tommy:123456abc@cluster0.lkrga.mongodb.net/test";
+//var url =  "mongodb+srv://tommy:123456abc@cluster0.lkrga.mongodb.net/test";
+var url ="mongodb://localhost:27017";
+
 var MongoClient = require('mongodb').MongoClient;
 
 app.use(session({secret: 'matkhaukhongaibiet_khongcannho',saveUninitialized: true,resave: true}));
