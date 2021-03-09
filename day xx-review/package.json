@@ -1,0 +1,18 @@
+{
+  "name": "day-xx-review",
+  "version": "1.0.0",
+  "description": "",
+  "main": "myserver.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node myserver.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "hbs": "^4.1.1",
+    "mongodb": "^3.6.4"
+  }
+}
