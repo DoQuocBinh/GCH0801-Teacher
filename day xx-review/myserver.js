@@ -6,10 +6,13 @@ app.set('view engine','hbs')
 
 var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: false }))
+var url =  "mongodb+srv://tommy:123456abc@cluster0.lkrga.mongodb.net/test";
 
-
-app.get('/',(req,res)=>{
-    res.render('index')
+app.get('/', async (req,res)=>{
+    let client= await MongoClient.connect(url);
+    let dbo = client.db("MyDatabase");
+    let results = await dbo.collection("products").find({}).toArray();
+    res.render('index',{model:results})
 })
 
 
