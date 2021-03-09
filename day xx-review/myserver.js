@@ -1,3 +1,6 @@
+//npm init
+//npm install express hbs mongodb express-session
+
 var express = require('express')
 var hbs = require('hbs')
 
